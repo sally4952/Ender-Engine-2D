@@ -10,8 +10,16 @@ using System.Runtime.InteropServices;
 
 namespace EnderEngine2D.GDI
 {
+    /// <summary>
+    /// 对引擎内部提供一套与绘图有关的方法。
+    /// </summary>
     internal static class GDIMain
     {
+        /// <summary>
+        /// 在引擎内部使用。这是每当输出窗口刷新时所需要调用的方法，用于绘制物体。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public static unsafe void GDIDrawEvent(object sender, RenderEventArgs e)
         {
             var gl = Program.MainForm.Output.OpenGL;

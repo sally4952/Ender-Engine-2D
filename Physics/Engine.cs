@@ -8,15 +8,34 @@ using System.Threading.Tasks;
 
 namespace EnderEngine2D.Physics
 {
+    /// <summary>
+    /// 此游戏引擎使用的简易物理引擎。
+    /// </summary>
     internal class Engine
     {
+        /// <summary>
+        /// 确定这个物理引擎中有哪些刚体（可坠落的）。
+        /// </summary>
         public Dictionary<int, RigidBody> RigidBodies = new Dictionary<int, RigidBody>();
+        /// <summary>
+        /// 确定这个物理引擎中有哪些静态体（不受物理约束）。
+        /// </summary>
         public Dictionary<int, StaticBody> StaticBodies = new Dictionary<int, StaticBody>();
+        /// <summary>
+        /// 引擎使用的重力是多少。
+        /// </summary>
         public float Gravitation;
+        /// <summary>
+        /// 初始化引擎。
+        /// </summary>
+        /// <param name="g">引擎的重力。</param>
         public Engine(float g = 9.81f)
         {
             Gravitation = g;
         }
+        /// <summary>
+        /// 更新引擎中所有刚体的位置、状态。
+        /// </summary>
         public void Update()
         {
             if (RigidBodies.Count == 0)
