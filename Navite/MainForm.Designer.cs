@@ -35,6 +35,7 @@
             // Output
             // 
             this.Output.DrawFPS = false;
+            this.Output.FrameRate = 600;
             this.Output.Location = new System.Drawing.Point(0, 0);
             this.Output.Name = "Output";
             this.Output.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL2_1;

@@ -16,6 +16,6 @@ namespace EnderEngine2D.GameObjects
         /// <summary>
         /// 要绘制到屏幕上的物体。
         /// </summary>
-        public static unsafe IDrawable*[] Objects = new IDrawable*[0];
+        public static unsafe IDrawable[] Objects = new IDrawable[0];
     }
 }

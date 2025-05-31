@@ -129,6 +129,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Ground.cs" />
+    <Compile Include="Assets\Player.cs" />
     <Compile Include="ExceptionsHandle\ErrorWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,6 +167,7 @@
     <Compile Include="Physics\RigidBody.cs" />
     <Compile Include="Physics\StaticBody.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RealGameObjectAttribute.cs" />
     <Compile Include="Sounds\Player.cs" />
   </ItemGroup>
   <ItemGroup>

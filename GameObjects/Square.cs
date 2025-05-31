@@ -16,11 +16,11 @@ namespace EnderEngine2D.GameObjects
         /// <summary>
         /// 获取正方形的刚体（表示此Obejct可以掉落）。
         /// </summary>
-        public RigidBody RigidBody;
+        public override RigidBody RigidBody { get; set; }
         /// <summary>
         /// 获取此正方形的静态体，表示此Object在引力下是固定不动的。
         /// </summary>
-        public StaticBody StaticBody;
+        public override StaticBody StaticBody { get; set; }
         /// <summary>
         /// 正方形的X轴。
         /// </summary>

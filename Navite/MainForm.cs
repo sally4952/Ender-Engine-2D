@@ -1,6 +1,6 @@
 ﻿#pragma warning disable CS8500
 #pragma warning disable CS4014
-#define BASE_CODE
+//#define BASE_CODE
 
 using EnderEngine2D.GameObjects;
 using EnderEngine2D.GameSave;
@@ -50,13 +50,13 @@ namespace EnderEngine2D
             Output.DrawFPS = true;
 #endif
 
-#if BASE_CODE
             unsafe
             {
                 fixed (OpenGLControl* control = &Output)
                     KeyboardInput = new Inputs.Keyboard.Keyboard((Control*)control);
             }
 
+#if BASE_CODE
             Task.Run(async () =>
             {
                 var jumping = false;
@@ -85,10 +85,10 @@ namespace EnderEngine2D
                             jumping = true;
                             Task.Run(async () =>
                             {
-                                for (float y = 30f; y >= 0; y -= 1f)
+                                for (float y = 16f; y >= 0; y -= 0.4f)
                                 {
                                     Square.Y -= y;
-                                    await Task.Delay(50);
+                                    await Task.Delay(2);
                                 }
                                 jumping = false;
                             });

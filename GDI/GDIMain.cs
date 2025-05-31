@@ -30,7 +30,11 @@ namespace EnderEngine2D.GDI
             }
             foreach (var obj in VisibleObjects.Objects)
             {
-                obj->Draw(e.Graphics);
+                if (obj == null)
+                {
+                    continue;
+                }
+                obj.Draw(e.Graphics);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using EnderEngine2D.ExceptionsHandle;
+using EnderEngine2D.GameObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace EnderEngine2D
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += Application_ThreadException;
-            PhysicalEngine = new Physics.Engine(0.1f);
+            PhysicalEngine = new Physics.Engine(0.6f);
             Task.Run(async () =>
             {
                 while (true)
@@ -41,6 +42,7 @@ namespace EnderEngine2D
                 }
             });
             MainForm = new MainForm();
+            GameObjectBase.Init();
             Application.Run(MainForm);
         }
         /// <summary>

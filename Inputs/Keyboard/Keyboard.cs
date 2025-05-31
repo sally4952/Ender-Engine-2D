@@ -78,8 +78,11 @@ namespace EnderEngine2D.Inputs.Keyboard
 
         unsafe void IDisposable.Dispose()
         {
-            mListenningControl->KeyDown -= KeyDownListenningEvent;
-            mListenningControl->KeyUp -= KeyUpListernningEvent;
+            if (*mListenningControl != null)
+            {
+                mListenningControl->KeyDown -= KeyDownListenningEvent;
+                mListenningControl->KeyUp -= KeyUpListernningEvent;
+            }
             mListenningControl = null;
             mIsAbandoned = true;
         }
