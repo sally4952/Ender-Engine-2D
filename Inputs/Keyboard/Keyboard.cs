@@ -80,8 +80,12 @@ namespace EnderEngine2D.Inputs.Keyboard
         {
             if (*mListenningControl != null)
             {
-                mListenningControl->KeyDown -= KeyDownListenningEvent;
-                mListenningControl->KeyUp -= KeyUpListernningEvent;
+                try
+                {
+                    mListenningControl->KeyDown -= KeyDownListenningEvent;
+                    mListenningControl->KeyUp -= KeyUpListernningEvent;
+                }
+                catch { }
             }
             mListenningControl = null;
             mIsAbandoned = true;

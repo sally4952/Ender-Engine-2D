@@ -1,4 +1,4 @@
-﻿using EnderEngine2D.GameObjects;
+using EnderEngine2D.GameObjects;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

@@ -36,6 +36,10 @@ namespace EnderEngine2D.GameObjects
                 {
                     RigidBody.X = value;
                 }
+                if (StaticBody != null)
+                {
+                    StaticBody.X = value;
+                }
             }
         }
         /// <summary>
@@ -52,6 +56,10 @@ namespace EnderEngine2D.GameObjects
                 if (RigidBody != null)
                 {
                     RigidBody.Y = value;
+                }
+                if (StaticBody != null)
+                {
+                    StaticBody.Y = value;
                 }
             }
         }

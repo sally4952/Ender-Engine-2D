@@ -127,7 +127,7 @@ namespace EnderEngine2D
         /// <param name="e"></param>
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            ((IDisposable)KeyboardInput)?.Dispose();
+            //((IDisposable)KeyboardInput)?.Dispose();
         }
     }
 }

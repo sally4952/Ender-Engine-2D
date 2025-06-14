@@ -1,7 +1,9 @@
-﻿using EnderEngine2D.ExceptionsHandle;
+﻿using EnderEngine2D.Assets;
+using EnderEngine2D.ExceptionsHandle;
 using EnderEngine2D.GameObjects;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -32,7 +34,7 @@ namespace EnderEngine2D
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += Application_ThreadException;
-            PhysicalEngine = new Physics.Engine(0.6f);
+            PhysicalEngine = new Physics.Engine(0.4f);
             Task.Run(async () =>
             {
                 while (true)
@@ -42,7 +44,7 @@ namespace EnderEngine2D
                 }
             });
             MainForm = new MainForm();
-            GameObjectBase.Init();
+            GameObjectBase.Init(new Level { BackgroundColor = Color.Black, Objects = new Dictionary<string, GameObjectBase>{ { "Player", new Player() }, { "Groung0", new Ground() } } });
             Application.Run(MainForm);
         }
         /// <summary>

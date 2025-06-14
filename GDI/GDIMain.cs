@@ -24,6 +24,7 @@ namespace EnderEngine2D.GDI
         {
             var gl = Program.MainForm.Output.OpenGL;
             gl?.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
+            gl?.ClearColor(Level.Now.BackgroundColor.R, Level.Now.BackgroundColor.G, Level.Now.BackgroundColor.B, Level.Now.BackgroundColor.A);
             if (VisibleObjects.Objects == null)
             {
                 return;
