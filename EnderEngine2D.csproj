@@ -170,6 +170,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Attributes\RealGameObjectAttribute.cs" />
     <Compile Include="Sounds\Player.cs" />
+    <Compile Include="UI\Button.cs" />
+    <Compile Include="UI\Label.cs" />
+    <Compile Include="UI\Square.cs" />
+    <Compile Include="UI\UIBase.cs" />
+    <Compile Include="UI\UIContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

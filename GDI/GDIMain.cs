@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using EnderEngine2D.GameObjects;
 using System.Runtime.InteropServices;
+using EnderEngine2D.UI;
 
 namespace EnderEngine2D.GDI
 {
@@ -37,6 +38,18 @@ namespace EnderEngine2D.GDI
                 }
                 obj.Draw(e.Graphics);
             }
+            if (UIContainer.IsGaming)
+            {
+                goto Label_01;
+            }
+            foreach (var con in UIContainer.Now)
+            {
+                foreach (var comp in con.Components)
+                {
+                    comp.Value.Draw(e.Graphics);
+                }
+            }
+            Label_01:;
         }
     }
 }

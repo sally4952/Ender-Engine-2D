@@ -25,6 +25,7 @@ namespace EnderEngine2D
         /// 获取正在使用的物理引擎。
         /// </summary>
         public static Physics.Engine PhysicalEngine;
+        public static bool IsPaused = false;
         /// <summary>
         /// 程序入口点。
         /// </summary>
@@ -39,7 +40,10 @@ namespace EnderEngine2D
             {
                 while (true)
                 {
-                    PhysicalEngine.Update();
+                    if (!IsPaused)
+                    {
+                        PhysicalEngine.Update();
+                    }
                     await Task.Delay(10);
                 }
             });

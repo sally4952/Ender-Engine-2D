@@ -165,9 +165,12 @@ namespace EnderEngine2D.GameObjects
 
                 while (true)
                 {
-                    foreach (var obj in Level.Now.Objects)
+                    if (!Program.IsPaused)
                     {
-                        obj.Value.Update();
+                        foreach (var obj in Level.Now.Objects)
+                        {
+                            obj.Value.Update();
+                        }
                     }
                     await Task.Delay(10);
                 }
