@@ -34,17 +34,22 @@ namespace EnderEngine2D
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += Application_ThreadException;
-            PhysicalEngine = new Physics.Engine(0.4f);
+            PhysicalEngine = new Physics.Engine(9.81f);
             Task.Run(async () =>
             {
                 while (true)
                 {
                     PhysicalEngine.Update();
-                    await Task.Delay(10);
+                    await Task.Delay(1);
                 }
             });
             MainForm = new MainForm();
-            GameObjectBase.Init(new Level { BackgroundColor = Color.Black, Objects = new Dictionary<string, GameObjectBase>{ { "Player", new Player() }, { "Groung0", new Ground() } } });
+            GameObjectBase.Init(new Level { BackgroundColor = Color.Black, Objects = new Dictionary<string, GameObjectBase>
+            {
+                { "PLAYER", new Player(new RectangleF(400, 100, 100, 100), Color.White) },
+                { "GROUND", new Ground(new RectangleF(0, 864, 1920, 10), Color.White) },
+            }});
+            UI.UIContainer.IsGaming = true;
             Application.Run(MainForm);
         }
         /// <summary>

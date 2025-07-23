@@ -29,10 +29,12 @@ namespace EnderEngine2D.GameObjects
         /// <summary>
         /// 此对象的X轴。
         /// </summary>
+        [AbleToNdc(TypeCode.Single, DirectionType.X)]
         public virtual float X { get; set; }
         /// <summary>
         /// 此对象的Y轴。
         /// </summary>
+        [AbleToNdc(TypeCode.Single, DirectionType.Y)]
         public virtual float Y { get; set; }
         /// <summary>
         /// 此对象所在的位置。
@@ -72,10 +74,79 @@ namespace EnderEngine2D.GameObjects
         public virtual void OnLoadingLevel(in Level level)
         {
         }
+        public bool UseNdc { get; set; }
+        public void ToNdc()
+        {
+            if (UseNdc)
+            {
+#if DEBUG
+                throw new InvalidOperationException("此组件的坐标已为归一化设备坐标。");
+#else
+                return;
+#endif
+            }
+            foreach (var value in this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+            {
+                var attr = value.GetCustomAttribute<AbleToNdcAttribute>();
+                if (attr != null)
+                {
+                    if (attr.ValueType == TypeCode.Single)
+                    {
+                        value.GetSetMethod()?.Invoke(this, new object[] { GameScreenConvert.ScreenToPercentage((float?)value.GetGetMethod()?.Invoke(this, new object[0]), attr.Direction) });
+                    }
+                }
+            }
+            foreach (var value in this.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+            {
+                var attr = value.GetCustomAttribute<AbleToNdcAttribute>();
+                if (attr != null)
+                {
+                    if (attr.ValueType == TypeCode.Single)
+                    {
+                        value.SetValue(this, GameScreenConvert.ScreenToPercentage((float?)value.GetValue(this), attr.Direction));
+                    }
+                }
+            }
+            UseNdc = true;
+        }
+        public void ToSc()
+        {
+            if (!UseNdc)
+            {
+#if DEBUG
+                throw new InvalidOperationException("此组件的坐标已为屏幕坐标。");
+#else
+                return;
+#endif
+            }
+            foreach (var value in this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+            {
+                var attr = value.GetCustomAttribute<AbleToNdcAttribute>();
+                if (attr != null)
+                {
+                    if (attr.ValueType == TypeCode.Single)
+                    {
+                        value.GetSetMethod()?.Invoke(this, new object[] { GameScreenConvert.PercentageToScreen((float?)value.GetGetMethod()?.Invoke(this, new object[0]), attr.Direction) });
+                    }
+                }
+            }
+            foreach (var value in this.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+            {
+                var attr = value.GetCustomAttribute<AbleToNdcAttribute>();
+                if (attr != null)
+                {
+                    if (attr.ValueType == TypeCode.Single)
+                    {
+                        value.SetValue(this, GameScreenConvert.PercentageToScreen((float?)value.GetValue(this), attr.Direction));
+                    }
+                }
+            }
+            UseNdc = false;
+        }
         /// <summary>
         /// 引擎内部使用的方法，用于初始化所有继承于GameObjectBase的Object。
         /// </summary>
-        [Obsolete("如果您使用Level系统，请改用Init(Level)。")]
+        [Obsolete("如果您使用Level系统，请改用GameObjectBase.Init(Level)。")]
         public static void Init()
         {
             var objects = new List<GameObjectBase>();

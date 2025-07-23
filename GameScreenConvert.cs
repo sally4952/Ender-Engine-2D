@@ -101,8 +101,13 @@ namespace EnderEngine2D
         /// <param name="value"></param>
         /// <param name="dt"></param>
         /// <returns></returns>
-        public static float PercentageToScreen(float value, DirectionType dt)
+        public static float PercentageToScreen(float? value_, DirectionType dt)
         {
+            if (value_ == null)
+            {
+                return 0;
+            }
+            var value = (float)value_;
             var result = 0f;
             if (dt == DirectionType.X)
             {
@@ -120,8 +125,13 @@ namespace EnderEngine2D
         /// <param name="value"></param>
         /// <param name="dt"></param>
         /// <returns></returns>
-        public static float ScreenToPercentage(float value, DirectionType dt)
+        public static float ScreenToPercentage(float? value_, DirectionType dt)
         {
+            if (value_ == null)
+            {
+                return 0;
+            }
+            var value = (float)value_;
             var result = 0f;
             if (dt == DirectionType.X)
             {

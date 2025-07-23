@@ -1,106 +1,126 @@
-﻿using EnderEngine2D.GameObjects;
-using EnderEngine2D.Attributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using EnderEngine2D.Attributes;
+using EnderEngine2D.GameObjects;
 
 namespace EnderEngine2D.Assets
 {
     [RealGameObject(JoinGameAs.RigidBody)]
-    class Player : Square
+    internal class Player : Square
     {
-        bool IsJumping = false;
-        bool CanRespawn = true;
-
-        public Player() :
-            base(
-                new RectangleF(
-                    GameScreenConvert.PercentageToScreen(0.2f, DirectionType.X), 
-                    GameScreenConvert.PercentageToScreen(0.6f, DirectionType.Y), 
-                    100, 100),
-                Color.White)
+        public Player(RectangleF rect, Color color) : base(rect, color)
         {
+            this.UseNdc = false;
         }
+
+        bool jumping = false;
+        bool flying = false;
+        float flyingHeight;
+        bool canCameraMove = true;
+        int a = 0;
 
         public override void Update()
         {
-            if (Program.MainForm.KeyboardInput.GetKeyDown(Keys.Escape))
+            if (flying)
             {
-                Application.Exit();
+                this.RigidBody.Y = flyingHeight;
             }
-            if (Program.MainForm.KeyboardInput.GetKeyDown(Keys.A))
+            InputHandle();
+            CameraMove();
+        }
+
+        void InputHandle()
+        {
+            if (Program.MainForm.KeyboardInput.GetKeyDown(System.Windows.Forms.Keys.Escape))
             {
-                if (this.X - 4f > 0)
-                    this.X -= 4f;
+                System.Windows.Forms.Application.Exit();
             }
-            if (Program.MainForm.KeyboardInput.GetKeyDown(Keys.D))
+            if (flying)
             {
-                if (this.X + 4 < GameScreenConvert.PercentageToScreen(1f, DirectionType.X))
-                    this.X += 4;
-            }
-            if (Program.MainForm.KeyboardInput.GetKeyDown(Keys.Space))
-            {
-                if (this.RigidBody.Force == Vector2.Zero)
+                if (Program.MainForm.KeyboardInput.GetKeyDown(System.Windows.Forms.Keys.ShiftKey))
                 {
-                    if (!IsJumping)
+                    flyingHeight += 10f;
+                }
+            }
+            if (Program.MainForm.KeyboardInput.GetKeyDown(System.Windows.Forms.Keys.A))
+            {
+                this.RigidBody.Force += new System.Numerics.Vector2(-1.2f, 0);
+            }
+            if (Program.MainForm.KeyboardInput.GetKeyDown(System.Windows.Forms.Keys.D))
+            {
+                this.RigidBody.Force += new System.Numerics.Vector2(1.2f, 0);
+            }
+            if (Program.MainForm.KeyboardInput.GetKeyDown(System.Windows.Forms.Keys.Space))
+            {
+                if (flying)
+                {
+                    flyingHeight -= 10f;
+                }
+                else if (this.RigidBody.IsGrounded)
+                {
+                    if (!jumping)
                     {
-                        IsJumping = true;
+                        jumping = true;
+                        a = 20;
                         Task.Run(async () =>
                         {
-                            await Jump(20f);
-                            IsJumping = false;
+                            for (var i = 12; i > 0; i--)
+                            {
+                                this.RigidBody.Force += new System.Numerics.Vector2(0, i);
+                                await Task.Delay(14);
+                            }
+                            jumping = false;
                         });
                     }
                 }
-            }
-            if (this.Y > GameScreenConvert.PercentageToScreen(1f, DirectionType.Y))
-            {
-                this.X = GameScreenConvert.PercentageToScreen(0.2f, DirectionType.X);
-                this.Y = GameScreenConvert.PercentageToScreen(0.6f, DirectionType.Y);
-                this.RigidBody.Force = Vector2.Zero;
-                Task.Run(async () =>
+                else if (jumping)
                 {
-                    IsJumping = true;
-                    await Task.Delay(20);
-                    IsJumping = false;
-                });
-            }
-            if (Program.MainForm.KeyboardInput.GetKeyDown(Keys.R))
-            {
-                if (CanRespawn)
-                {
-                    CanRespawn = false;
-                    this.X = GameScreenConvert.PercentageToScreen(0.2f, DirectionType.X);
-                    this.Y = GameScreenConvert.PercentageToScreen(0.6f, DirectionType.Y);
-                    this.RigidBody.Force = Vector2.Zero;
-                    Task.Run(async () =>
+                    if (a == 0)
                     {
-                        IsJumping = true;
-                        await Task.Delay(20);
-                        IsJumping = false;
-                        await Task.Delay(2980);
-                        CanRespawn = true;
-                    });
+                        while (jumping) ;
+                        flying = true;
+                        flyingHeight = this.RigidBody.Y;
+                    }
                 }
             }
-            if (Program.MainForm.KeyboardInput.GetKeyDown(Keys.Q))
+            if (Program.MainForm.KeyboardInput.GetKeyUp(System.Windows.Forms.Keys.R))
             {
-                Level.LoadLevel(new Level { BackgroundColor = Color.White, Objects = new Dictionary<string, GameObjectBase> { { "Ground", new Ground() } } });
+                Respawn();
+            }
+            if (a > 0) a--;
+        }
+
+        void CameraMove()
+        {
+            if (canCameraMove)
+            {
+                if (this.X < Camera.X + 400f)
+                {
+                    Camera.X = this.X - 400f;
+                }
+                else if (this.X > Camera.X + GameScreenConvert.PercentageToScreen(1f, DirectionType.X) - 400f)
+                {
+                    Camera.X = this.X + 400f - GameScreenConvert.PercentageToScreen(1f, DirectionType.X);
+                }
+                if (this.Y < Camera.Y + 300f)
+                {
+                    Camera.Y = this.Y - 300f;
+                }
+                else if (this.Y > Camera.Y + GameScreenConvert.PercentageToScreen(1f, DirectionType.Y) - 300f)
+                {
+                    Camera.Y = this.Y + 300f - GameScreenConvert.PercentageToScreen(1f, DirectionType.Y);
+                }
             }
         }
 
-        async Task Jump(float force)
+        void Respawn()
         {
-            for (var i = force; i > 0; i--)
-            {
-                this.Y -= i;
-                await Task.Delay(4);
-            }
+            this.RigidBody.X = 400;
+            this.RigidBody.Y = 100;
         }
     }
 }

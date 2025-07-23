@@ -1,42 +1,37 @@
-﻿using EnderEngine2D.GameObjects;
-using EnderEngine2D.Attributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EnderEngine2D.Attributes;
+using EnderEngine2D.GameObjects;
 
 namespace EnderEngine2D.Assets
 {
     [RealGameObject(JoinGameAs.StaticBody)]
     internal class Ground : Square
     {
-        public Ground() :
-            base(
-                new RectangleF(GameScreenConvert.PercentageToScreen(0.1f, DirectionType.X), GameScreenConvert.PercentageToScreen(0.9f, DirectionType.Y), GameScreenConvert.PercentageToScreen(0.8f, DirectionType.X), 10),
-                Color.Gray)
+        public Ground(RectangleF rect, Color color) : base(rect, color)
         {
         }
-
-        bool IsLeft = false;
-
+        bool up = false;
         public override void Update()
         {
-            if (IsLeft)
+            if (up)
             {
-                this.Y -= 4f;
-                if (this.Y < 180)
+                //this.Y -= 2;
+                if (this.Y < 200)
                 {
-                    IsLeft = false;
+                    up = false;
                 }
             }
             else
             {
-                this.Y += 4f;
-                if (this.Y + this.Height > GameScreenConvert.PercentageToScreen(1f, DirectionType.Y))
+                //this.Y += 2;
+                if (this.Y > 800)
                 {
-                    IsLeft = true;
+                    up = true;
                 }
             }
         }

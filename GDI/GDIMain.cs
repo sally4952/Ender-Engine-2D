@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using EnderEngine2D.GameObjects;
 using System.Runtime.InteropServices;
+using EnderEngine2D.UI;
 
 namespace EnderEngine2D.GDI
 {
@@ -20,7 +21,7 @@ namespace EnderEngine2D.GDI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public static unsafe void GDIDrawEvent(object sender, RenderEventArgs e)
+        public static unsafe void GDIDrawEvent(object _, RenderEventArgs e)
         {
             var gl = Program.MainForm.Output.OpenGL;
             gl?.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
@@ -35,8 +36,25 @@ namespace EnderEngine2D.GDI
                 {
                     continue;
                 }
+                ((GameObjectBase)obj).X -= Camera.X;
+                ((GameObjectBase)obj).Y -= Camera.Y;
                 obj.Draw(e.Graphics);
+                ((GameObjectBase)obj).X += Camera.X;
+                ((GameObjectBase)obj).Y += Camera.Y;
             }
+
+            if (UIContainer.IsGaming || (UIContainer.Now == null) || (UIContainer.Now.Length == 0))
+            {
+                goto Label_01;
+            }
+            foreach (var con in UIContainer.Now)
+            {
+                foreach (var comp in con.Components)
+                {
+                    comp.Value.Draw(e.Graphics);
+                }
+            }
+        Label_01:;
         }
     }
 }
