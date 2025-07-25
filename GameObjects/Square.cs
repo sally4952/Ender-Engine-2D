@@ -1,4 +1,5 @@
-﻿using EnderEngine2D.Physics;
+﻿using EnderEngine2D.Attributes;
+using EnderEngine2D.Physics;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -24,6 +25,7 @@ namespace EnderEngine2D.GameObjects
         /// <summary>
         /// 正方形的X轴。
         /// </summary>
+        [AbleToNdc(TypeCode.Single, DirectionType.X)]
         public override float X
         {
             get
@@ -45,6 +47,7 @@ namespace EnderEngine2D.GameObjects
         /// <summary>
         /// 正方形的Y轴。
         /// </summary>
+        [AbleToNdc(TypeCode.Single, DirectionType.Y)]
         public override float Y
         {
             get
@@ -66,10 +69,12 @@ namespace EnderEngine2D.GameObjects
         /// <summary>
         /// 正方形的宽。
         /// </summary>
+        [AbleToNdc(TypeCode.Single, DirectionType.X)]
         public float Width;
         /// <summary>
         /// 正方形的长。
         /// </summary>
+        [AbleToNdc(TypeCode.Single, DirectionType.Y)]
         public float Height;
         /// <summary>
         /// 正方形要显示的颜色。

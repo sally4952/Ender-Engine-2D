@@ -28,6 +28,7 @@ namespace EnderEngine2D
         /// 此窗口默认的键盘监听器。
         /// </summary>
         public Inputs.Keyboard.Keyboard KeyboardInput;
+        public Inputs.Mouse.MouseInput MouseInput;
 #if BASE_CODE
         public Square Square;
         public Square Ground0;
@@ -55,6 +56,7 @@ namespace EnderEngine2D
                 fixed (OpenGLControl* control = &Output)
                     KeyboardInput = new Inputs.Keyboard.Keyboard((Control*)control);
             }
+            MouseInput = new Inputs.Mouse.MouseInput(Output);
 
 #if BASE_CODE
             Task.Run(async () =>

@@ -9,99 +9,50 @@ using System.Threading.Tasks;
 namespace EnderEngine2D.Physics
 {
     /// <summary>
-    /// 对于本物理引擎中刚体的定义。
+    /// 表示一个刚体。
     /// </summary>
-    internal class RigidBody
+    internal class RigidBody : PhysicsBodyBase
     {
         /// <summary>
-        /// 刚体的X轴。
+        /// 刚体的力。
         /// </summary>
-        public float X;
+        public Vector2 Force { get; set; } = Vector2.Zero;
         /// <summary>
-        /// 刚体的Y轴。
+        /// 刚体是否已经落地（对物理模拟没有影响）。
         /// </summary>
-        public float Y;
+        public bool IsGrounded { get; set; }
         /// <summary>
-        /// 刚体的力的方向和大小。
+        /// 惯性衰减的值。
         /// </summary>
-        public Vector2 Force;
+        public float InertiaAttenuation { get; set; } = 1.2f;
         /// <summary>
-        /// 刚体的位置。
+        /// 确定它是否会被物理引擎模拟。
         /// </summary>
-        public PointF Position
+        public bool IsPhysicsal { get; set; } = true;
+        /// <summary>
+        /// 初始化刚体。
+        /// </summary>
+        /// <param name="x">刚体的初始X轴位置。</param>
+        /// <param name="y">刚体的初始Y轴位置。</param>
+        /// <param name="width">刚体的初始宽度。</param>
+        /// <param name="height">刚体的初始高度。</param>
+        public RigidBody(float x, float y, float width, float height) : base(x, y, width, height)
         {
-            get => new PointF(X, Y);
-            set
-            {
-                X = value.X;
-                Y = value.Y;
-            }
         }
         /// <summary>
-        /// 刚体的宽。
+        /// 初始化刚体。
         /// </summary>
-        public float Width;
-        /// <summary>
-        /// 刚体的高。
-        /// </summary>
-        public float Height;
-        /// <summary>
-        /// 刚体的大小。
-        /// </summary>
-        public SizeF Size
+        /// <param name="position">刚体的初始位置。</param>
+        /// <param name="size">刚体的初始大小。</param>
+        public RigidBody(PointF position, SizeF size) : base(position.X, position.Y, size.Width, size.Height)
         {
-            get => new SizeF(Width, Height);
-            set
-            {
-                Width = value.Width;
-                Height = value.Height;
-            }
         }
         /// <summary>
-        /// 获取或设置用于表示此刚体的长方形结构体。
+        /// 初始化刚体。
         /// </summary>
-        public RectangleF Rectangle
+        /// <param name="rect">用于初始化刚体位置和尺寸的矩形。</param>
+        public RigidBody(RectangleF rect) : base(rect.X, rect.Y, rect.Width, rect.Height)
         {
-            get => new RectangleF(X, Y, Width, Height);
-            set
-            {
-                X = value.X;
-                Y = value.Y;
-                Width = value.Width;
-                Height = value.Height;
-            }
-        }
-        /// <summary>
-        /// 从x、y、长、宽初始化刚体
-        /// </summary>
-        /// <param name="x">刚体所在的X</param>
-        /// <param name="y">刚体所在的Y</param>
-        /// <param name="width">刚体的宽</param>
-        /// <param name="height">刚体的长</param>
-        public RigidBody(float x, float y, float width, float height)
-        {
-            X = x;
-            Y = y;
-            Width = width;
-            Height = height;
-        }
-        /// <summary>
-        /// 从PointF（位置）和SizeF（大小）初始化刚体。
-        /// </summary>
-        /// <param name="position">刚体所在位置。</param>
-        /// <param name="size">刚体的大小。</param>
-        public RigidBody(PointF position, SizeF size)
-        {
-            Position = position;
-            Size = size;
-        }
-        /// <summary>
-        /// 从长方形结构体初始化一个刚体。
-        /// </summary>
-        /// <param name="rectangle">表示这个刚体的长方形结构体。</param>
-        public RigidBody(RectangleF rectangle)
-        {
-            Rectangle = rectangle;
         }
     }
 }

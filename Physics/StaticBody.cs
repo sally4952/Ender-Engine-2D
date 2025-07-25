@@ -8,95 +8,38 @@ using System.Threading.Tasks;
 namespace EnderEngine2D.Physics
 {
     /// <summary>
-    /// 此物理引擎中定义的静态体（不受重力约束的）。
+    /// 表示一个静态体（可阻止刚体的运动）。
     /// </summary>
-    internal class StaticBody
+    internal class StaticBody : PhysicsBodyBase
     {
         /// <summary>
-        /// 静态体的X轴。
+        /// 确定它是否具有碰撞箱（是否能阻止刚体运动）。
         /// </summary>
-        public float X;
+        public bool HasCollision { get; set; } = true;
         /// <summary>
-        /// 静态体的Y轴。
+        /// 初始化静态体。
         /// </summary>
-        public float Y;
-        /// <summary>
-        /// 静态体的位置。
-        /// </summary>
-        public PointF Position
+        /// <param name="x">静态体的初始X轴位置。</param>
+        /// <param name="y">静态体的初始Y轴位置。</param>
+        /// <param name="width">静态体的初始宽度。</param>
+        /// <param name="height">静态体的初始高度。</param>
+        public StaticBody(float x, float y, float width, float height) : base(x, y, width, height)
         {
-            get => new PointF(X, Y);
-            set
-            {
-                X = value.X;
-                Y = value.Y;
-            }
         }
         /// <summary>
-        /// 静态体的宽。
+        /// 初始化静态体。
         /// </summary>
-        public float Width;
-        /// <summary>
-        /// 静态体的高。
-        /// </summary>
-        public float Height;
-        /// <summary>
-        /// 静态体的大小。
-        /// </summary>
-        public SizeF Size
+        /// <param name="position">静态体的初始位置</param>
+        /// <param name="size">静态体的初始大小。</param>
+        public StaticBody(PointF position, SizeF size) : base(position.X, position.Y, size.Width, size.Height)
         {
-            get => new SizeF(Width, Height);
-            set
-            {
-                Width = value.Width;
-                Height = value.Height;
-            }
         }
         /// <summary>
-        /// 用于表示此静态体的长方形结构体。
+        /// 初始化静态体。
         /// </summary>
-        public RectangleF Rectangle
+        /// <param name="rect">用于初始化静态体位置和尺寸的矩形。</param>
+        public StaticBody(RectangleF rect) : base(rect.X, rect.Y, rect.Width, rect.Height)
         {
-            get => new RectangleF(X, Y, Width, Height);
-            set
-            {
-                X = value.X;
-                Y = value.Y;
-                Width = value.Width;
-                Height = value.Height;
-            }
-        }
-        /// <summary>
-        /// 从x、y、长、宽初始化静态体
-        /// </summary>
-        /// <param name="x">静态体所在的X</param>
-        /// <param name="y">静态体所在的Y</param>
-        /// <param name="width">静态体的宽</param>
-        /// <param name="height">静态体的长</param>
-        public StaticBody(float x, float y, float width, float height)
-        {
-            X = x;
-            Y = y;
-            Width = width;
-            Height = height;
-        }
-        /// <summary>
-        /// 从PointF（位置）和SizeF（大小）初始化静态体。
-        /// </summary>
-        /// <param name="position">静态体所在位置。</param>
-        /// <param name="size">静态体的大小。</param>
-        public StaticBody(PointF position, SizeF size)
-        {
-            Position = position;
-            Size = size;
-        }
-        /// <summary>
-        /// 从长方形结构体初始化一个静态体。
-        /// </summary>
-        /// <param name="rectangle">表示这个静态体的长方形结构体。</param>
-        public StaticBody(RectangleF rectangle)
-        {
-            Rectangle = rectangle;
         }
     }
 }
